@@ -1,4 +1,4 @@
-# Game-Time-1st-Experiment
+# GameTime  1 
 A simple first look at video game logic:
 
 This was my first attempt to apply what I was learning to my impression of video game logic,  
