@@ -1,0 +1,121 @@
+// GameTime1
+// Learning randomization for video game programming
+
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+void room1(int, int);
+
+//Min-max limitations for player stats
+const int MINHP = 0;
+const int MAXHP = 1000;
+
+const int MINMANA = 0;
+const int MAXMANA = 1000;
+
+int main()
+{
+    // Base player stats
+    int baseHP = 100;        // Base hit points
+    int baseMana = 100;      // Base mana
+
+    // Working player stats
+
+    int wHP = 100;                // Working hit points
+    int wMana = 100;              // Working mana
+
+    
+    //INTRO
+
+    cout << "Welcome to Game Time!\n";
+    cout << "You have entered the first room.  This room is here to introduce you\n";
+    cout << "to how battle in this game works!  It will be a simple boss fight.\n";
+    cout << "I wish you luck in the battle ahead!\n";
+    system("pause");
+
+    //Battle function
+    room1(wHP, wMana);
+
+    //OUTRO
+    cout << "Thank you for playing!";
+}
+
+void room1(int wHP, int wMana)
+{
+    // Randomizers
+    unsigned seed = time(0);
+    srand(seed);
+    int damageDealt;
+    int damageRec;
+    // User melee attack power
+    int minMelDamage = 5;
+    int maxMelDamage = 15;
+    // User magic attack power
+    int minMagDamage = 10;
+    int maxMagDamage = 20;
+
+    int manaUse = 20; // Magic cost
+
+    // Boss stats
+    int bossHP = 100;
+    int minBossAtt = 5;
+    int maxBossAtt = 15;
+
+    int attack;  // Choice of attack
+    cout << endl;
+    cout << endl;
+    cout << "Oh noes!  You're in battle!\n";
+    cout << "Hit Points: " << wHP << endl;
+    cout << "Mana: " << wMana << endl;
+ 
+    do
+    {
+        // ATTACK PHASE
+        cout << "Select 1 to attack with your sword and 2 to cast a magic attack:  ";
+        cin >> attack;
+        cout << endl;
+
+        if (attack == 1)
+        {
+            damageDealt = (rand() % (maxMelDamage - minMelDamage + 1)) + minMelDamage;
+            bossHP = bossHP - damageDealt;
+            cout << "You attack with your sword!\n";
+            cout << "You do " << damageDealt << " damage.\n";
+        }
+
+        else if (attack == 2 && wMana >= 20)
+        {
+            damageDealt = (rand() % (maxMagDamage - minMagDamage + 1)) + minMagDamage;
+            bossHP = bossHP - damageDealt;
+            cout << "You send a fireball crashing into the boss!\n";
+            cout << "You deal " << damageDealt << " damage.\n";
+            wMana = wMana - manaUse;
+            cout << "You have " << wMana << " mana remaining.\n";
+        }
+
+        else if (attack == 2 && wMana < 20)
+            cout << "You are out of mana! \n";
+        else
+            cout << "What are you trying to attack with?\n";
+        system("pause");
+        cout << endl;
+
+        // DEFENSE PHASE
+        damageDealt = (rand() % (maxBossAtt - minBossAtt)) + minBossAtt;
+        wHP = wHP - damageDealt;
+        cout << "The boss thrashes with it's claws\n";
+        cout << "You take " << damageDealt << " damage.\n";
+        cout << "You have " << wHP << " hit points remaining.\n";
+        cout << endl;
+
+    } while (wHP > 0 && bossHP > 0);
+
+    // BATTLE RESULTS
+    if (wHP > 0)
+        cout << "Congratulations, you defeated the boss!\n";
+    else
+        cout << "You have been defeated!  Sad day.\n";
+    // Turn this into a return function and loop back into it if player has been defeated "Would you like to try again?"
+    // Implement write/save file
